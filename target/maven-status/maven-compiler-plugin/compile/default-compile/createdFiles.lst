@@ -1,0 +1,7 @@
+app\dao\MyLittlePonyDAO.class
+app\model\PonyModel$Pony.class
+app\App.class
+app\model\RaceModel$Race.class
+app\model\RaceModel.class
+app\model\PonyModel.class
+app\controller\Controller.class
