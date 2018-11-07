@@ -81,7 +81,7 @@ public class Pony {
 		this.age = age;
 	}
 
-	public double getWeight() {
+	public int getWeight() {
 		return weight;
 	}
 

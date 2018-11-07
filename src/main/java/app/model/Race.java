@@ -1,6 +1,8 @@
 package app.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,9 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -26,19 +31,24 @@ public class Race {
 	@Column
 	@NotNull
 	@Length(min = 1, max = 50)
-	private String place;
+	private String location;
 
 	@Column
 	@NotNull
 	private LocalDate date;
 
+	@ManyToMany
+	@JoinTable(name="race_pony", joinColumns=@JoinColumn(name="race_id"), inverseJoinColumns=@JoinColumn(name="pony_id"))
+	private List<Pony> poniesRace = new ArrayList<Pony>();
+
 	public Race() {
 	}
 
-	public Race(String place, LocalDate date) {
-		this.place = place;
+	public Race(String location, LocalDate date) {
+		this.location = location;
 		this.date = date;
 	}
+	
 
 	public Long getId() {
 		return id;
@@ -48,12 +58,12 @@ public class Race {
 		this.id = id;
 	}
 
-	public String getPlace() {
-		return place;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setPlace(String place) {
-		this.place = place;
+	public void setLocation(String place) {
+		this.location = place;
 	}
 
 	public LocalDate getDate() {
@@ -62,6 +72,14 @@ public class Race {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+
+	public List<Pony> getPoniesRace() {
+		return poniesRace;
+	}
+
+	public void setPoniesRace(List<Pony> ponies) {
+		this.poniesRace = ponies;
 	}
 
 }
