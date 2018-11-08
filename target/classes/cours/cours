@@ -1,0 +1,15 @@
+3 types de stockage chez l'utilisateur (plus rapide)
+
+Session : un site et un utilisateur
+Local storage : petite base de données en clair accessible quasiment par tout le monde (ex pubs qu'on veut afficher)
+cookie : petit fichier texte accessible par tout le monde (clé/valeur)
+=> ne jamais stocker de données sensibles dans Local storage et cookies
+
+Attention : local storage != session
+
+Plus on va mettre de données en session, plus ça va ramer
+
+Le try catch est possible en javascript et utilisé quand on fait du node (back Js). En front : on ne les utilise pas
+
+ondelete cascade :
+https://stackoverflow.com/questions/8563592/jpas-cascade-remove-and-hibernates-ondelete-used-together

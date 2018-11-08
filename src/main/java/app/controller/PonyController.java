@@ -1,11 +1,15 @@
 package app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.dao.PonyDAO;
+import app.dao.RaceDAO;
 import app.exceptions.RessourceNotFoundException;
 import app.model.Pony;
+import app.model.Race;
 
 @RestController
 @RequestMapping("/Pony")
@@ -27,6 +33,7 @@ public class PonyController {
 
 	@Autowired
 	PonyDAO ponyDAO;
+	RaceDAO raceDAO;
 
 	@CrossOrigin(origins = "*")
 	@GetMapping("/getPonies")
@@ -36,7 +43,7 @@ public class PonyController {
 
 	@CrossOrigin(origins = "*")
 	@GetMapping("/getPony/{id}")
-	public Pony getById(@PathVariable("id") Long id) {
+	public Pony getById(@PathVariable long id) {
 		Optional<Pony> oPony = ponyDAO.findById(id);
 		if (oPony.isPresent()) {
 			return oPony.get();
@@ -52,26 +59,20 @@ public class PonyController {
 
 	@CrossOrigin(origins = "*")
 	@DeleteMapping("/deletePony/{id}")
-	public void deletePony(@PathVariable("id") Long id) {
+	public void deletePony(@PathVariable long id) {
+		 List<Race> races = raceDAO.findAll();
+	        races.forEach((race) -> {
+	            List<Pony> poniesFiltered = race.getPoniesRace().stream().filter((p) -> p.getId() != id).collect(Collectors.toList());
+	            race.setPoniesRace(poniesFiltered);
+	            raceDAO.save(race);
+	        });
 		ponyDAO.deleteById(id);
 	}
 
 	@CrossOrigin(origins = "*")
 	@PutMapping("/updatePony/{id}")
-	public Pony updatePony(@PathVariable("id") Long id, @RequestBody @Valid Pony pony) {
-		Optional<Pony> ponyToChange = ponyDAO.findById(id);
-		if (ponyToChange.isPresent()) {
-			ponyToChange.get().setName(pony.getName());
-			ponyToChange.get().setColor(pony.getColor());
-			ponyToChange.get().setAge(pony.getAge());
-			ponyToChange.get().setWeight(pony.getWeight());
-
-			Pony updatedPony = ponyDAO.save(ponyToChange.get());
-			return updatedPony;
-		}
-
-		throw new RessourceNotFoundException("Sorry, this pony does not exist yet...");
-
+	public Pony updatePony(@PathVariable long id, @RequestBody @Valid Pony pony) {
+		return ponyDAO.save(pony);
 	}
 
 }

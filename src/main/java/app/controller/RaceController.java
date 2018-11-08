@@ -49,18 +49,10 @@ public class RaceController {
 	@CrossOrigin(origins = "*")
 	@PutMapping("/updateRace/{id}")
 	public Race updateRace(@PathVariable("id") Long id, @RequestBody @Valid Race race) {
-		Optional<Race> raceToChange = raceDAO.findById(id);
-		if (raceToChange.isPresent()) {
-			raceToChange.get().setLocation(race.getLocation());
-			raceToChange.get().setDate(race.getDate());
-			raceToChange.get().setPoniesRace(race.getPoniesRace());
-
-			Race updatedRace = raceDAO.save(raceToChange.get());
-			return updatedRace;
-		}
-
-		throw new RessourceNotFoundException("Sorry, this race does not exist yet...");
-
+			return raceDAO.save(race);
+	
 	}
 
 }
+
+
