@@ -1,15 +1,10 @@
 package app.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import app.dao.PonyDAO;
 import app.dao.RaceDAO;
-import app.exceptions.RessourceNotFoundException;
+import app.exceptions.ResourceNotFoundException;
 import app.model.Pony;
 import app.model.Race;
 
@@ -33,6 +28,7 @@ public class PonyController {
 
 	@Autowired
 	PonyDAO ponyDAO;
+	@Autowired
 	RaceDAO raceDAO;
 
 	@CrossOrigin(origins = "*")
@@ -48,7 +44,7 @@ public class PonyController {
 		if (oPony.isPresent()) {
 			return oPony.get();
 		}
-		throw new RessourceNotFoundException("Sorry, this pony does not exist yet...");
+		throw new ResourceNotFoundException("Sorry, this pony does not exist yet...");
 	}
 
 	@CrossOrigin(origins = "*")

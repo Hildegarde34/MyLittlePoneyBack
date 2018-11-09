@@ -1,7 +1,6 @@
 package app.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.dao.RaceDAO;
-import app.exceptions.RessourceNotFoundException;
 import app.model.Race;
 
 @RestController
